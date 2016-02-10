@@ -2,15 +2,14 @@
 //               █      █                                                     //
 //               ████████                                                     //
 //             ██        ██                                                   //
-//            ███  █  █  ███                                                  //
-//            █ █        █ █        Player.cpp                                //
-//             ████████████         ColorGrid Core                            //
-//           █              █       Copyright (c) 2015 AmazingCow             //
-//          █     █    █     █      www.AmazingCow.com                        //
+//            ███  █  █  ███        Player.cpp                                //
+//            █ █        █ █        CoreColorGrid                             //
+//             ████████████                                                   //
+//           █              █       Copyright (c) 2015, 2016                  //
+//          █     █    █     █      AmazingCow - www.AmazingCow.com           //
 //          █     █    █     █                                                //
 //           █              █       N2OMatt - n2omatt@amazingcow.com          //
 //             ████████████         www.amazingcow.com/n2omatt                //
-//                                                                            //
 //                                                                            //
 //                  This software is licensed as GPLv3                        //
 //                 CHECK THE COPYING FILE TO MORE DETAILS                     //
@@ -27,9 +26,9 @@
 //        (See opensource.AmazingCow.com/acknowledgment.html for details).    //
 //        If you will not acknowledge, just send us a email. We'll be         //
 //        *VERY* happy to see our work being used by other people. :)         //
-//        The email is: acknowledgmentopensource@AmazingCow.com               //
+//        The email is: acknowledgment_opensource@AmazingCow.com              //
 //     3. Altered source versions must be plainly marked as such,             //
-//        and must notbe misrepresented as being the original software.       //
+//        and must not be misrepresented as being the original software.      //
 //     4. This notice may not be removed or altered from any source           //
 //        distribution.                                                       //
 //     5. Most important, you must have fun. ;)                               //
@@ -46,12 +45,13 @@
 #include <vector>
 
 //Usings.
-USING_NS_COLORGRIDCORE;
+USING_NS_CORECOLORGRID;
 using namespace std;
 
 
 // Friends //
-NS_COLORGRIDCORE_BEGIN
+NS_CORECOLORGRID_BEGIN
+
 std::ostream& operator <<(std::ostream &os, const Player &player)
 {
     os << "Player  : " << player.getIndex()              << std::endl;
@@ -61,7 +61,8 @@ std::ostream& operator <<(std::ostream &os, const Player &player)
 
     return os;
 }
-NS_COLORGRIDCORE_END
+
+NS_CORECOLORGRID_END
 
 
 // CTOR/DTOR //
@@ -93,7 +94,7 @@ bool Player::isAIPlayer() const
     return false;
 }
 
-const Coord::CoordVec& Player::getOwnedCoords() const
+const CoreCoord::Coord::Vec& Player::getOwnedCoords() const
 {
     return m_ownedCoords;
 }
@@ -104,7 +105,7 @@ void Player::setCurrentColorIndex(int colorIndex)
 {
     m_currentColorIndex = colorIndex;
 }
-void Player::addOwnedCoord(const Coord &coord)
+void Player::addOwnedCoord(const CoreCoord::Coord &coord)
 {
     auto it = std::find(begin(m_ownedCoords),
                         end  (m_ownedCoords),

@@ -2,15 +2,14 @@
 //               █      █                                                     //
 //               ████████                                                     //
 //             ██        ██                                                   //
-//            ███  █  █  ███                                                  //
-//            █ █        █ █        ColorGridCore.h                           //
-//             ████████████         ColorGrid Core                            //
-//           █              █       Copyright (c) 2015 AmazingCow             //
-//          █     █    █     █      www.AmazingCow.com                        //
+//            ███  █  █  ███        CoreColorGrid.h                           //
+//            █ █        █ █        CoreColorGrid                             //
+//             ████████████                                                   //
+//           █              █       Copyright (c) 2015, 2016                  //
+//          █     █    █     █      AmazingCow - www.AmazingCow.com           //
 //          █     █    █     █                                                //
 //           █              █       N2OMatt - n2omatt@amazingcow.com          //
 //             ████████████         www.amazingcow.com/n2omatt                //
-//                                                                            //
 //                                                                            //
 //                  This software is licensed as GPLv3                        //
 //                 CHECK THE COPYING FILE TO MORE DETAILS                     //
@@ -27,9 +26,9 @@
 //        (See opensource.AmazingCow.com/acknowledgment.html for details).    //
 //        If you will not acknowledge, just send us a email. We'll be         //
 //        *VERY* happy to see our work being used by other people. :)         //
-//        The email is: acknowledgmentopensource@AmazingCow.com               //
+//        The email is: acknowledgment_opensource@AmazingCow.com              //
 //     3. Altered source versions must be plainly marked as such,             //
-//        and must notbe misrepresented as being the original software.       //
+//        and must not be misrepresented as being the original software.      //
 //     4. This notice may not be removed or altered from any source           //
 //        distribution.                                                       //
 //     5. Most important, you must have fun. ;)                               //
@@ -39,20 +38,19 @@
 //                                  Enjoy :)                                  //
 //----------------------------------------------------------------------------//
 
-#ifndef __ColorGridCore_include_ColorGridCore_h__
-#define __ColorGridCore_include_ColorGridCore_h__
+#ifndef __CoreColorGrid_include_CoreColorGrid_h__
+#define __CoreColorGrid_include_CoreColorGrid_h__
 
 //This is a umbrella header indented to ease the inclusion of all files
 //needed to use the ColorGrid Game Core.
 //While is possible to include each one separately is very easy just to include
 //this file alone and let it makes all the job. :)
 
-#include "ColorGridCore_Utils.h"
+#include "CoreColorGrid_Utils.h"
 #include "Color.h"
 #include "Status.h"
-#include "Coord.h"
 #include "GameCore.h"
 #include "Player.h"
 #include "AIPlayer.h"
 
-#endif // defined(__ColorGridCore_include_ColorGridCore_h__) //
+#endif // defined(__CoreColorGrid_include_CoreColorGrid_h__) //

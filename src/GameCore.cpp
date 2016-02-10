@@ -2,15 +2,14 @@
 //               █      █                                                     //
 //               ████████                                                     //
 //             ██        ██                                                   //
-//            ███  █  █  ███                                                  //
-//            █ █        █ █        GameCore.cpp                              //
-//             ████████████         ColorGrid Core                            //
-//           █              █       Copyright (c) 2015 AmazingCow             //
-//          █     █    █     █      www.AmazingCow.com                        //
+//            ███  █  █  ███        GameCore.cpp                              //
+//            █ █        █ █        CoreColorGrid                             //
+//             ████████████                                                   //
+//           █              █       Copyright (c) 2015, 2016                  //
+//          █     █    █     █      AmazingCow - www.AmazingCow.com           //
 //          █     █    █     █                                                //
 //           █              █       N2OMatt - n2omatt@amazingcow.com          //
 //             ████████████         www.amazingcow.com/n2omatt                //
-//                                                                            //
 //                                                                            //
 //                  This software is licensed as GPLv3                        //
 //                 CHECK THE COPYING FILE TO MORE DETAILS                     //
@@ -27,9 +26,9 @@
 //        (See opensource.AmazingCow.com/acknowledgment.html for details).    //
 //        If you will not acknowledge, just send us a email. We'll be         //
 //        *VERY* happy to see our work being used by other people. :)         //
-//        The email is: acknowledgmentopensource@AmazingCow.com               //
+//        The email is: acknowledgment_opensource@AmazingCow.com              //
 //     3. Altered source versions must be plainly marked as such,             //
-//        and must notbe misrepresented as being the original software.       //
+//        and must not be misrepresented as being the original software.      //
 //     4. This notice may not be removed or altered from any source           //
 //        distribution.                                                       //
 //     5. Most important, you must have fun. ;)                               //
@@ -48,7 +47,7 @@
 #include "../include/AIPlayer.h"
 
 //Usings.
-USING_NS_COLORGRIDCORE;
+USING_NS_CORECOLORGRID;
 using namespace std;
 
 // Constants //
@@ -68,10 +67,10 @@ GameCore::GameCore(const Options &options):
 }
 
 // Public Methods //
-Coord::CoordVec GameCore::changeColor(int colorIndex)
+CoreCoord::Coord::Vec GameCore::changeColor(int colorIndex)
 {
     //COWTODO: Refactor this method - It has too much in common with GameCore::getAffectedCoords.
-    Coord::CoordVec changedCoords;
+    CoreCoord::Coord::Vec changedCoords;
 
     auto &player = getCurrentPlayer();
 
@@ -143,7 +142,7 @@ const Color::Board& GameCore::getBoard() const
 {
     return m_board;
 }
-const Color& GameCore::getColorAt(const Coord & coord) const
+const Color& GameCore::getColorAt(const CoreCoord::Coord & coord) const
 {
     return m_board[coord.y][coord.x];
 }
@@ -160,7 +159,7 @@ int GameCore::getSeed() const
 }
 
 
-bool GameCore::isValidCoord(const Coord &coord) const
+bool GameCore::isValidCoord(const CoreCoord::Coord &coord) const
 {
     return (coord.y >= 0 && coord.y < static_cast<int>(m_board.size()))
         && (coord.x >= 0 && coord.x < static_cast<int>(m_board[coord.y].size()));
@@ -181,13 +180,13 @@ std::string GameCore::ascii() const
     return ss.str();
 }
 
-Coord::CoordVec GameCore::getAffectedCoords(const Coord::CoordVec &coords,
-                                            int colorIndex) const
+CoreCoord::Coord::Vec GameCore::getAffectedCoords(const CoreCoord::Coord::Vec &coords,
+                                                  int colorIndex) const
 {
     //COWTODO: Refactor this method - It has too much in common with GameCore::changeColor.
 
     //Add the Player's current coords.
-    Coord::CoordVec changedCoords = coords;
+    CoreCoord::Coord::Vec changedCoords = coords;
 
     for(int i = 0; i < changedCoords.size(); ++i)
     {
@@ -265,7 +264,7 @@ void GameCore::initPlayers()
 
 
 //Helpers.
-Color& GameCore::getColorAt(const Coord &coord)
+Color& GameCore::getColorAt(const CoreCoord::Coord &coord)
 {
     return m_board[coord.y][coord.x];
 }
@@ -287,15 +286,15 @@ void GameCore::createPlayerHelper(int playerIndex,
     if(playerType == Options::PlayerType::None)
         return;
 
-    auto sidesVec = std::vector<Coord> {
+    auto sidesVec = std::vector<CoreCoord::Coord> {
             //Player1 - Left Top Side
-            Coord(0, 0),
+            CoreCoord::Coord(0, 0),
             //Player2 - Right Bottom Side.
-            Coord(m_options.boardHeight - 1, m_options.boardWidth  - 1),
+            CoreCoord::Coord(m_options.boardHeight - 1, m_options.boardWidth  - 1),
             //Player3 - Right Top Side.
-            Coord(0, m_options.boardWidth -1),
+            CoreCoord::Coord(0, m_options.boardWidth -1),
             //Player4 - Left Bottm Side.
-            Coord(m_options.boardHeight -1, 0)
+            CoreCoord::Coord(m_options.boardHeight -1, 0)
         };
 
     //Create the player based in it's type.

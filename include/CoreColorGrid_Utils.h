@@ -2,15 +2,14 @@
 //               █      █                                                     //
 //               ████████                                                     //
 //             ██        ██                                                   //
-//            ███  █  █  ███                                                  //
-//            █ █        █ █        ColorGridCore_Utils.h                     //
-//             ████████████         ColorGrid Core                            //
-//           █              █       Copyright (c) 2015 AmazingCow             //
-//          █     █    █     █      www.AmazingCow.com                        //
+//            ███  █  █  ███        CoreColorGrid_Utils.h                     //
+//            █ █        █ █        CoreColorGrid                             //
+//             ████████████                                                   //
+//           █              █       Copyright (c) 2015, 2016                  //
+//          █     █    █     █      AmazingCow - www.AmazingCow.com           //
 //          █     █    █     █                                                //
 //           █              █       N2OMatt - n2omatt@amazingcow.com          //
 //             ████████████         www.amazingcow.com/n2omatt                //
-//                                                                            //
 //                                                                            //
 //                  This software is licensed as GPLv3                        //
 //                 CHECK THE COPYING FILE TO MORE DETAILS                     //
@@ -27,9 +26,9 @@
 //        (See opensource.AmazingCow.com/acknowledgment.html for details).    //
 //        If you will not acknowledge, just send us a email. We'll be         //
 //        *VERY* happy to see our work being used by other people. :)         //
-//        The email is: acknowledgmentopensource@AmazingCow.com               //
+//        The email is: acknowledgment_opensource@AmazingCow.com              //
 //     3. Altered source versions must be plainly marked as such,             //
-//        and must notbe misrepresented as being the original software.       //
+//        and must not be misrepresented as being the original software.      //
 //     4. This notice may not be removed or altered from any source           //
 //        distribution.                                                       //
 //     5. Most important, you must have fun. ;)                               //
@@ -39,23 +38,24 @@
 //                                  Enjoy :)                                  //
 //----------------------------------------------------------------------------//
 
-#ifndef __ColorGridCore_include_ColorGridCore_Utils_h__
-#define __ColorGridCore_include_ColorGridCore_Utils_h__
+
+#ifndef __CoreColorGrid_include_CoreColorGrid_Utils_h__
+#define __CoreColorGrid_include_CoreColorGrid_Utils_h__
 
 //All classes of this core is placed inside this namespace.
 //We use MACROS so is easier to change if needed. 
 //Is (in our opinion) more explicit. 
 //And finally the editors will not reformat the code.
 
-#define NS_COLORGRIDCORE_BEGIN namespace ColorGridCore {
-#define NS_COLORGRIDCORE_END   }
-#define USING_NS_COLORGRIDCORE using namespace ColorGridCore
+#define NS_CORECOLORGRID_BEGIN namespace CoreColorGrid {
+#define NS_CORECOLORGRID_END   }
+#define USING_NS_CORECOLORGRID using namespace CoreColorGrid
 
 //The core version number.
-#define COW_COLORGRIDCORE_VERSION_MAJOR    "0"
-#define COW_COLORGRIDCORE_VERSION_MINOR    "1"
-#define COW_COLORGRIDCORE_VERSION_REVISION "0"
+#define COW_CORECOLORGRID_VERSION_MAJOR    "0"
+#define COW_CORECOLORGRID_VERSION_MINOR    "1"
+#define COW_CORECOLORGRID_VERSION_REVISION "0"
 
-#define COW_COLORGRIDCORE_VERSION "0.1.0"
+#define COW_CORECOLORGRID_VERSION "0.1.0"
 
-#endif // defined(__ColorGridCore_include_ColorGridCore_Utils_h__) //
+#endif // defined(__CoreColorGrid_include_CoreColorGrid_Utils_h__) //

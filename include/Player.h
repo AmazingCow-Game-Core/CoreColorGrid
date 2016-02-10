@@ -2,15 +2,14 @@
 //               █      █                                                     //
 //               ████████                                                     //
 //             ██        ██                                                   //
-//            ███  █  █  ███                                                  //
-//            █ █        █ █        Player.h                                  //
-//             ████████████         ColorGrid Core                            //
-//           █              █       Copyright (c) 2015 AmazingCow             //
-//          █     █    █     █      www.AmazingCow.com                        //
+//            ███  █  █  ███        Player.h                                  //
+//            █ █        █ █        CoreColorGrid                             //
+//             ████████████                                                   //
+//           █              █       Copyright (c) 2015, 2016                  //
+//          █     █    █     █      AmazingCow - www.AmazingCow.com           //
 //          █     █    █     █                                                //
 //           █              █       N2OMatt - n2omatt@amazingcow.com          //
 //             ████████████         www.amazingcow.com/n2omatt                //
-//                                                                            //
 //                                                                            //
 //                  This software is licensed as GPLv3                        //
 //                 CHECK THE COPYING FILE TO MORE DETAILS                     //
@@ -27,9 +26,9 @@
 //        (See opensource.AmazingCow.com/acknowledgment.html for details).    //
 //        If you will not acknowledge, just send us a email. We'll be         //
 //        *VERY* happy to see our work being used by other people. :)         //
-//        The email is: acknowledgmentopensource@AmazingCow.com               //
+//        The email is: acknowledgment_opensource@AmazingCow.com              //
 //     3. Altered source versions must be plainly marked as such,             //
-//        and must notbe misrepresented as being the original software.       //
+//        and must not be misrepresented as being the original software.      //
 //     4. This notice may not be removed or altered from any source           //
 //        distribution.                                                       //
 //     5. Most important, you must have fun. ;)                               //
@@ -39,18 +38,21 @@
 //                                  Enjoy :)                                  //
 //----------------------------------------------------------------------------//
 
-#ifndef __ColorGridCore_include_Player_h__
-#define __ColorGridCore_include_Player_h__
+
+#ifndef __CoreColorGrid_include_Player_h__
+#define __CoreColorGrid_include_Player_h__
 
 //COWTODO: Add doxygen comments.
 
 //std
 #include <ostream>
-//ColorGridCore.
-#include "ColorGridCore_Utils.h"
-#include "Coord.h"
+//CoreColorGrid
+#include "CoreColorGrid_Utils.h"
+//CoreCoord
+#include "CoreCoord.h"
 
-NS_COLORGRIDCORE_BEGIN
+NS_CORECOLORGRID_BEGIN
+//Forward Declarations
 class GameCore;
 
 class Player
@@ -73,13 +75,13 @@ public:
 
     virtual bool isAIPlayer() const;
 
-    const Coord::CoordVec& getOwnedCoords() const;
+    const CoreCoord::Coord::Vec& getOwnedCoords() const;
 
     // Private Methods //
 private:
     //These methods are intended to be used only by GameCore class.
     void setCurrentColorIndex(int colorIndex);
-    void addOwnedCoord(const Coord &coord);
+    void addOwnedCoord(const CoreCoord::Coord &coord);
     void incrementMovesCount();
 
     // iVars //
@@ -88,8 +90,8 @@ private:
     int m_currentColorIndex;
     int m_movesCount;
 
-    Coord::CoordVec m_ownedCoords;
+    CoreCoord::Coord::Vec m_ownedCoords;
 };
 
-NS_COLORGRIDCORE_END
-#endif // defined(__ColorGridCore_include_Player_h__) //
+NS_CORECOLORGRID_END
+#endif // defined(__CoreColorGrid_include_Player_h__) //

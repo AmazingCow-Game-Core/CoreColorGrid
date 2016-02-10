@@ -2,15 +2,14 @@
 //               █      █                                                     //
 //               ████████                                                     //
 //             ██        ██                                                   //
-//            ███  █  █  ███                                                  //
-//            █ █        █ █        GameCore.h                                //
-//             ████████████         ColorGrid Core                            //
-//           █              █       Copyright (c) 2015 AmazingCow             //
-//          █     █    █     █      www.AmazingCow.com                        //
+//            ███  █  █  ███        CoreColorGrid.h                           //
+//            █ █        █ █        CoreColorGrid                             //
+//             ████████████                                                   //
+//           █              █       Copyright (c) 2015, 2016                  //
+//          █     █    █     █      AmazingCow - www.AmazingCow.com           //
 //          █     █    █     █                                                //
 //           █              █       N2OMatt - n2omatt@amazingcow.com          //
 //             ████████████         www.amazingcow.com/n2omatt                //
-//                                                                            //
 //                                                                            //
 //                  This software is licensed as GPLv3                        //
 //                 CHECK THE COPYING FILE TO MORE DETAILS                     //
@@ -27,9 +26,9 @@
 //        (See opensource.AmazingCow.com/acknowledgment.html for details).    //
 //        If you will not acknowledge, just send us a email. We'll be         //
 //        *VERY* happy to see our work being used by other people. :)         //
-//        The email is: acknowledgmentopensource@AmazingCow.com               //
+//        The email is: acknowledgment_opensource@AmazingCow.com              //
 //     3. Altered source versions must be plainly marked as such,             //
-//        and must notbe misrepresented as being the original software.       //
+//        and must not be misrepresented as being the original software.      //
 //     4. This notice may not be removed or altered from any source           //
 //        distribution.                                                       //
 //     5. Most important, you must have fun. ;)                               //
@@ -39,8 +38,8 @@
 //                                  Enjoy :)                                  //
 //----------------------------------------------------------------------------//
 
-#ifndef __ColorGridCore_include_GameCore_h__
-#define __ColorGridCore_include_GameCore_h__
+#ifndef __CoreColorGrid_include_GameCore_h__
+#define __CoreColorGrid_include_GameCore_h__
 
 //COWTODO: Add doxygen comments.
 //COWTODO: Change the type of Player pointers to std::unique_ptr.
@@ -48,14 +47,14 @@
 //std
 #include <string>
 #include <memory>
-//ColorGridCore.
-#include "ColorGridCore_Utils.h"
+//CoreColorGrid
+#include "CoreColorGrid_Utils.h"
 #include "Status.h"
 #include "Color.h"
 #include "Coord.h"
 #include "Player.h"
 
-NS_COLORGRIDCORE_BEGIN
+NS_CORECOLORGRID_BEGIN
 
 class GameCore
 {
@@ -97,20 +96,20 @@ public:
 
     // Public Methods //
 public:
-    Coord::CoordVec changeColor(int colorIndex);
+    CoreCoord::Coord::Vec changeColor(int colorIndex);
 
     const Color::Board& getBoard() const;
-    const Color& getColorAt(const Coord &coord) const;
+    const Color& getColorAt(const CoreCoord::Coord &coord) const;
 
     Player& getCurrentPlayer();
 
     int getSeed() const;
 
-    bool isValidCoord(const Coord &coord) const;
+    bool isValidCoord(const CoreCoord::Coord &coord) const;
     std::string ascii() const;
 
-    Coord::CoordVec getAffectedCoords(const Coord::CoordVec &coords,
-                                      int colorIndex) const;
+    CoreCoord::Coord::Vec getAffectedCoords(const CoreCoord::Coord::Vec &coords,
+                                            int colorIndex) const;
 
     // Private Methods //
 private:
@@ -120,7 +119,7 @@ private:
     void initPlayers();
 
     //Helpers.
-    Color& getColorAt(const Coord &coord);
+    Color& getColorAt(const CoreCoord::Coord &coord);
 
     void turnCurrentPlayer();
     void checkStatus();
@@ -137,5 +136,5 @@ private:
     std::vector<std::shared_ptr<Player>> m_players;
 };
 
-NS_COLORGRIDCORE_END
-#endif // defined(__ColorGridCore_include_GameCore_h__) //
+NS_CORECOLORGRID_END
+#endif // defined(__CoreColorGrid_include_GameCore_h__) //
