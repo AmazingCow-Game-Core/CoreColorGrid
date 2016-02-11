@@ -69,7 +69,6 @@ GameCore::GameCore(const Options &options):
 // Public Methods //
 CoreCoord::Coord::Vec GameCore::changeColor(int colorIndex)
 {
-    //COWTODO: Refactor this method - It has too much in common with GameCore::getAffectedCoords.
     CoreCoord::Coord::Vec changedCoords;
 
     auto &player = getCurrentPlayer();
@@ -79,42 +78,8 @@ CoreCoord::Coord::Vec GameCore::changeColor(int colorIndex)
         return changedCoords;
 
     //Add the Player's current coords.
-    changedCoords = player.getOwnedCoords();
-
-    for(int i = 0; i < changedCoords.size(); ++i)
-    {
-        auto ownedCoord = changedCoords[i];
-
-        for(auto &orthogonalCoord : ownedCoord.getOrthogonal())
-        {
-            //Coord if out of Board bounds.
-            if(!isValidCoord(orthogonalCoord))
-                continue;
-
-
-            //Coord is already processed.
-            auto it = std::find(begin(changedCoords),
-                                end  (changedCoords),
-                                orthogonalCoord);
-
-            if(it != end(changedCoords))
-                continue;
-
-            const auto &color = getColorAt(orthogonalCoord);
-
-            //Coord's color isn't the same of target color.
-            if(color.getColorIndex() != colorIndex)
-                continue;
-
-            //Color is already owned by other player.
-            if(color.getOwnerIndex() != Color::kInvalidOwner &&
-               color.getOwnerIndex() != player.getIndex())
-                continue;
-
-            //Update the changed coords.
-            changedCoords.push_back(orthogonalCoord);
-        }
-    }
+    changedCoords = getAffectedCoords(player.getOwnedCoords(),
+                                      colorIndex);
 
     //Add the changed coords to player.
     for(auto &coord : changedCoords)
@@ -183,8 +148,6 @@ std::string GameCore::ascii() const
 CoreCoord::Coord::Vec GameCore::getAffectedCoords(const CoreCoord::Coord::Vec &coords,
                                                   int colorIndex) const
 {
-    //COWTODO: Refactor this method - It has too much in common with GameCore::changeColor.
-
     //Add the Player's current coords.
     CoreCoord::Coord::Vec changedCoords = coords;
 
