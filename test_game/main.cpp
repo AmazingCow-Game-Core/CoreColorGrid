@@ -42,26 +42,13 @@
 #include <iostream>
 #include <iterator>
 //CoreColorGrid
-#include "CoreColorGrid.h"
+#include "../include/CoreColorGrid.h"
 
 USING_NS_CORECOLORGRID;
 using namespace std;
 
 int main()
 {
-//     // int boardWidth, int boardHeight,
-//     //          int colorsCount,
-//     //          PlayersCount playerCount,
-//     //          AIPlayersCount aiPlayersCount,
-//     //          int maxMoves,
-//     //          int seed = kRandomSeed);
-//     GameCore core(5,5,
-//                   5,
-//                   GameCore::PlayersCount::One,
-//                   GameCore::AIPlayersCount::Zero,
-//                   10,
-//                   8);
-
     GameCore::Options options;
 
     //Board
@@ -94,7 +81,6 @@ int main()
 
         int a;
         if(!player.isAIPlayer())
-//            a = 0;
             cin >> a;
         else
             a = static_cast<AIPlayer &>(player).decideColor();
@@ -108,15 +94,6 @@ int main()
                   std::ostream_iterator<CoreCoord::Coord>(std::cout, ", "));
         cout << endl;
 
-        // core.changeColor(a);
-
+        core.changeColor(a);
     }
-    //    cout << core.ascii() << endl;
-    //    cout << player << endl;
-    //
-    //    core.changeColor(2);
-    //
-    //    cout << core.ascii() << endl;
-    //    cout << player << endl;
-
 }
