@@ -46,6 +46,8 @@
 //ColorGridCore
 #include "../include/AIPlayer.h"
 
+#include <iostream>
+
 //Usings.
 USING_NS_CORECOLORGRID;
 using namespace std;
@@ -244,12 +246,21 @@ void GameCore::checkStatus()
 void GameCore::createPlayerHelper(int playerIndex,
                                   Options::PlayerType playerType)
 {
-
     //Not need create the player.
     if(playerType == Options::PlayerType::None)
         return;
 
-    auto sidesVec = std::vector<CoreCoord::Coord> {
+    //Create the player based in it's type.
+    Player *resetPlayerPtr = nullptr;
+    resetPlayerPtr = (playerType == Options::PlayerType::Human)
+                     ? new Player(playerIndex)
+                     : new AIPlayer(playerIndex, m_options.aiStrength);
+
+    std::shared_ptr<Player> player(resetPlayerPtr);
+    m_players.push_back(player);
+
+    //Get the start coord for the player.
+    auto startCoord = CoreCoord::Coord::Vec {
             //Player1 - Left Top Side
             CoreCoord::Coord(0, 0),
             //Player2 - Right Bottom Side.
@@ -258,27 +269,15 @@ void GameCore::createPlayerHelper(int playerIndex,
             CoreCoord::Coord(0, m_options.boardWidth -1),
             //Player4 - Left Bottm Side.
             CoreCoord::Coord(m_options.boardHeight -1, 0)
-        };
+    }[playerIndex];
 
-    //Create the player based in it's type.
-    std::shared_ptr<Player> player;
-    if(playerType == Options::PlayerType::Human)
-        player.reset(new Player(playerIndex));
-    else
-        player.reset(new AIPlayer(playerIndex, m_options.aiStrength));
+    //Add the the first Coord for Player and let the game
+    //change all colors that are possible - This will
+    //increase the Player's moves count, but we gonna reset
+    //it later.
+    player->addOwnedCoord(startCoord);
+    changeColor(getColorAt(startCoord).getColorIndex());
 
-
-    auto &color = getColorAt(sidesVec[playerIndex]);
-
-    //Set the color to player.
-    color.changeColorIndex(color.getColorIndex(), playerIndex);
-
-    //Set the Player start color.
-    player->setCurrentColorIndex(color.getColorIndex());
-
-    //Add the Color to player.
-    player->addOwnedCoord(sidesVec[playerIndex]);
-
-    //Add player.
-    m_players.push_back(player);
+    //Reset the moves for this Player.
+    player->m_movesCount = 0;
 }
