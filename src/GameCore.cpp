@@ -225,6 +225,8 @@ void GameCore::initPlayers()
     createPlayerHelper(1, m_options.player2);
     createPlayerHelper(2, m_options.player3);
     createPlayerHelper(3, m_options.player4);
+
+    m_currentPlayerIndex = m_options.startPlayerIndex;
 }
 
 
@@ -259,12 +261,15 @@ void GameCore::createPlayerHelper(int playerIndex,
     std::shared_ptr<Player> player(resetPlayerPtr);
     m_players.push_back(player);
 
+    m_currentPlayerIndex = playerIndex;
+
+
     //Get the start coord for the player.
     auto startCoord = CoreCoord::Coord::Vec {
             //Player1 - Left Top Side
             CoreCoord::Coord(0, 0),
             //Player2 - Right Bottom Side.
-            CoreCoord::Coord(m_options.boardHeight - 1, m_options.boardWidth  - 1),
+            CoreCoord::Coord(m_options.boardHeight - 1, m_options.boardWidth - 1),
             //Player3 - Right Top Side.
             CoreCoord::Coord(0, m_options.boardWidth -1),
             //Player4 - Left Bottm Side.
