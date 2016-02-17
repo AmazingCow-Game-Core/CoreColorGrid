@@ -59,9 +59,10 @@ const int GameCore::kRandomSeed     = -1;
 // CTOR/DTOR //
 GameCore::GameCore(const Options &options):
     m_options(options),
-    m_currentPlayerIndex(options.startPlayerIndex)
+    m_currentPlayerIndex(options.startPlayerIndex),
     //m_board   - Initialized in GameCore::initBoard.
     //m_players - Initialized in GameCore::initPlayers.
+    m_pWinnerPlayer(nullptr)
 {
     initRandomGenerator();
     initBoard();
@@ -69,6 +70,7 @@ GameCore::GameCore(const Options &options):
 }
 
 // Public Methods //
+//Action
 CoreCoord::Coord::Vec GameCore::changeColor(int colorIndex)
 {
     CoreCoord::Coord::Vec changedCoords;
@@ -105,13 +107,21 @@ CoreCoord::Coord::Vec GameCore::changeColor(int colorIndex)
     return changedCoords;
 }
 
+//Board
 const Color::Board& GameCore::getBoard() const
 {
     return m_board;
 }
+
 const Color& GameCore::getColorAt(const CoreCoord::Coord & coord) const
 {
     return m_board[coord.y][coord.x];
+}
+
+//Player
+Player* GameCore::getWinnerPlayer() const
+{
+    return m_pWinnerPlayer;
 }
 
 Player& GameCore::getCurrentPlayer()
@@ -119,6 +129,37 @@ Player& GameCore::getCurrentPlayer()
     return *m_players[m_currentPlayerIndex];
 }
 
+Player& GameCore::getPlayer(int index) const
+{
+    return *m_players[index];
+}
+
+int GameCore::getPlayersCount() const
+{
+    return m_options.playersCount;
+}
+int GameCore::getHumanPlayersCount() const
+{
+    return m_options.humanPlayersCount;
+}
+
+//AI
+int GameCore::getAIStrength() const
+{
+    return m_options.aiStrength;
+}
+
+
+//Helpers
+bool GameCore::gameIsOver() const
+{
+    return (m_pWinnerPlayer != nullptr);
+}
+
+int GameCore::getMaxMoves() const
+{
+    return m_options.maxMoves;
+}
 
 int GameCore::getSeed() const
 {
@@ -130,21 +171,6 @@ bool GameCore::isValidCoord(const CoreCoord::Coord &coord) const
 {
     return (coord.y >= 0 && coord.y < static_cast<int>(m_board.size()))
         && (coord.x >= 0 && coord.x < static_cast<int>(m_board[coord.y].size()));
-}
-std::string GameCore::ascii() const
-{
-    std::stringstream ss;
-    for(const auto &line : m_board)
-    {
-        for(const auto &color : line)
-        {
-            auto index = color.getColorIndex();
-            ss << index;
-        }
-        ss << std::endl;
-    }
-
-    return ss.str();
 }
 
 CoreCoord::Coord::Vec GameCore::getAffectedCoords(const CoreCoord::Coord::Vec &coords,
@@ -189,6 +215,23 @@ CoreCoord::Coord::Vec GameCore::getAffectedCoords(const CoreCoord::Coord::Vec &c
     return changedCoords;
 }
 
+std::string GameCore::ascii() const
+{
+    std::stringstream ss;
+    for(const auto &line : m_board)
+    {
+        for(const auto &color : line)
+        {
+            auto index = color.getColorIndex();
+            ss << index;
+        }
+        ss << std::endl;
+    }
+
+    return ss.str();
+}
+
+
 // Private Methods //
 //Init.
 void GameCore::initRandomGenerator()
@@ -198,6 +241,7 @@ void GameCore::initRandomGenerator()
 
     srand(m_options.seed);
 }
+
 void GameCore::initBoard()
 {
     m_board.reserve(m_options.boardHeight);
@@ -216,53 +260,86 @@ void GameCore::initBoard()
         }
     }
 }
+
 void GameCore::initPlayers()
 {
-    if(m_options.player1 == Options::PlayerType::None)
-        m_options.player1 = Options::PlayerType::AI;
+    //First player is **always** a human player.
+    createPlayerHelper(0, false);
 
-    createPlayerHelper(0, m_options.player1);
-    createPlayerHelper(1, m_options.player2);
-    createPlayerHelper(2, m_options.player3);
-    createPlayerHelper(3, m_options.player4);
+    //Create the other players.
+    for(int i = 1; i < m_options.playersCount; ++i)
+        createPlayerHelper(i, m_options.humanPlayersCount >= i);
 
     m_currentPlayerIndex = m_options.startPlayerIndex;
 }
 
 
-//Helpers.
+//Colors
 Color& GameCore::getColorAt(const CoreCoord::Coord &coord)
 {
     return m_board[coord.y][coord.x];
 }
 
+
+//Status
+void GameCore::checkStatus()
+{
+    //COWTODO: Today we're not checking for a draw.
+    int possibleWinnerIndex = -1;
+    int maxCoordsCount      = 0;
+    int totalCoords         = 0;
+
+    for(int i = 0; i < m_players.size(); ++i)
+    {
+        int playerCoordsCount = m_players[i]->getOwnedCoords().size();
+
+        totalCoords += playerCoordsCount;
+
+        if(playerCoordsCount > maxCoordsCount)
+            possibleWinnerIndex = i;
+    }
+
+    //All coords are already owned - Game is over and we have a winner.
+    if(totalCoords == (m_board.size() * m_board[0].size()))
+    {
+        m_pWinnerPlayer = m_players[possibleWinnerIndex].get();
+        return;
+    }
+
+    //There are some coords left, so check if player
+    //already did the max moves allowed.
+    if(m_options.maxMoves != GameCore::kUnlimitedMoves &&
+       m_players[0]->getMovesCount() == m_options.maxMoves)
+    {
+        m_pWinnerPlayer = m_players[possibleWinnerIndex].get();
+        return;
+    }
+
+    //We don't have a winner yet and max moves count wasn't
+    //reached - So continue the game.
+    m_pWinnerPlayer = nullptr;
+}
+
+
+//Players
 void GameCore::turnCurrentPlayer()
 {
     m_currentPlayerIndex = (m_currentPlayerIndex + 1) % m_players.size();
 }
-void GameCore::checkStatus()
-{
-
-}
 
 void GameCore::createPlayerHelper(int playerIndex,
-                                  Options::PlayerType playerType)
-{
-    //Not need create the player.
-    if(playerType == Options::PlayerType::None)
-        return;
+                                  bool isAIPlayer)
 
-    //Create the player based in it's type.
+{
     Player *resetPlayerPtr = nullptr;
-    resetPlayerPtr = (playerType == Options::PlayerType::Human)
-                     ? new Player(playerIndex)
-                     : new AIPlayer(playerIndex, m_options.aiStrength);
+    resetPlayerPtr = (isAIPlayer)
+                     ? new AIPlayer(playerIndex, m_options.aiStrength)
+                     : new Player(playerIndex);
 
     std::shared_ptr<Player> player(resetPlayerPtr);
     m_players.push_back(player);
 
     m_currentPlayerIndex = playerIndex;
-
 
     //Get the start coord for the player.
     auto startCoord = CoreCoord::Coord::Vec {
