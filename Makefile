@@ -18,6 +18,6 @@ bin:
                    -I./lib/CoreCoord/include                    \
                    ./src/*.cpp                                  \
                    ./lib/CoreCoord/src/*.cpp                    \
-                   ./test_game/main.cpp                         \
+                   ./test_game/*.cpp                            \
                    -o ./bin/testgame
 
