@@ -65,20 +65,15 @@ public:
 
     struct Options
     {
-        enum class PlayerType { Human, AI, None };
-
         //Board
         int boardWidth;
         int boardHeight;
         int colorsCount;
 
-        //Players.
-        PlayerType player1 = PlayerType::Human;
-        PlayerType player2 = PlayerType::None;
-        PlayerType player3 = PlayerType::None;
-        PlayerType player4 = PlayerType::None;
-
-        int startPlayerIndex = 0; //Range [0, 3];
+        //Players
+        int playersCount      = 1; //Range [1, 3];
+        int humanPlayersCount = 1; //Range [1, playersCount];
+        int startPlayerIndex  = 0; //Range [0, 3];
 
         //AI.
         int aiStrength = 5; //Range [0, 10];
@@ -93,39 +88,56 @@ public:
 public:
     GameCore(const Options &options);
 
-
     // Public Methods //
 public:
+    //Action
     CoreCoord::Coord::Vec changeColor(int colorIndex);
 
+    //Board
     const Color::Board& getBoard() const;
     const Color& getColorAt(const CoreCoord::Coord &coord) const;
 
+    //Player
+    Player* getWinnerPlayer() const;
+    Player& getPlayer(int index) const;
     Player& getCurrentPlayer();
 
+    int getPlayersCount() const;
+    int getHumanPlayersCount() const;
+
+    //AI
+    int getAIStrength() const;
+
+    //Helpers
+    bool gameIsOver() const;
+
+    int getMaxMoves() const;
     int getSeed() const;
 
     bool isValidCoord(const CoreCoord::Coord &coord) const;
-    std::string ascii() const;
-
     CoreCoord::Coord::Vec getAffectedCoords(const CoreCoord::Coord::Vec &coords,
                                             int colorIndex) const;
 
+    std::string ascii() const;
+
+
     // Private Methods //
 private:
-    //Init.
+    //Init
     void initRandomGenerator();
     void initBoard();
     void initPlayers();
 
-    //Helpers.
+    //Colors
     Color& getColorAt(const CoreCoord::Coord &coord);
 
-    void turnCurrentPlayer();
+    //Status
     void checkStatus();
 
+    //Player
+    void turnCurrentPlayer();
     void createPlayerHelper(int playerIndex,
-                            Options::PlayerType playerType);
+                            bool isAIPlayer);
 
     // iVars //
 private:
@@ -133,7 +145,9 @@ private:
     int     m_currentPlayerIndex;
 
     Color::Board m_board;
+
     std::vector<std::shared_ptr<Player>> m_players;
+    Player *m_pWinnerPlayer;
 };
 
 NS_CORECOLORGRID_END
