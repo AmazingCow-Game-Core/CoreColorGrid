@@ -52,7 +52,7 @@ using namespace std;
 // Helper Functions //
 void printBoard(const GameCore &core);
 void printCoreInfo(const GameCore &core);
-
+void printPlayerInfo(const Player &player);
 
 // Implementation //
 int main()
@@ -81,8 +81,25 @@ int main()
     //Game Loop.
     while(1)
     {
+        //Info.
+        cout << "--------------------" << endl;
         printBoard(core);
+        cout << "--------------------" << endl;
         printCoreInfo(core);
+        cout << "--------------------" << endl;
+        printPlayerInfo(core.getCurrentPlayer());
+        cout << "--------------------" << endl;
+
+        //Prompt.
+        cout << "Color? ";
+        int a;
+        cin >> a;
+
+        //Make the change.
+        const auto &changedCoords = core.changeColor(a);
+
+        //Print info about the move.
+        cout << "(" << changedCoords.size() << ") was changed." << endl;
     }
 }
 
@@ -90,9 +107,44 @@ int main()
 // Helper Functions //
 void printBoard(const GameCore &core)
 {
-
+    auto &board = core.getBoard();
+    for(auto &line : board)
+    {
+        for(auto &color : line)
+            cout << color.getColorIndex();
+        cout << endl;
+    }
 }
 void printCoreInfo(const GameCore &core)
 {
+    //Players Info.
+    cout << "Winner Player : ";
+    Player *winnerPlayer = core.getWinnerPlayer();
+    if(winnerPlayer)
+         cout << winnerPlayer->getIndex();
+    else
+        cout << "None";
+    cout << endl;
+
+    cout << "Current Player: " << core.getCurrentPlayer().getIndex() << endl;
+    cout << "Player Count  : " << core.getPlayersCount() << endl;
+    cout << "Humans Count  : " << core.getHumanPlayersCount() << endl;
+
+    //AI Info.
+    cout << "AI Strength : " << core.getAIStrength() << endl;
+
+    //Other Info.
+    cout << "Game Is Over: " << core.gameIsOver() << endl;
+    cout << "Max Moves   : " << core.getMaxMoves() << endl;
+    cout << "Seed        : " << core.getSeed() << endl;
 
 }
+void printPlayerInfo(const Player &player)
+{
+    cout << "Player      : " << player.getIndex() << endl;
+    cout << "Color Index : " << player.getCurrentColorIndex() << endl;
+    cout << "Moves Count : " << player.getMovesCount() << endl;
+    cout << "Is AI       : " << player.isAIPlayer() << endl;
+    cout << "Owned Coords: " << player.getOwnedCoords().size() << endl;
+}
+
