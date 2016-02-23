@@ -49,7 +49,6 @@
 #include <memory>
 //CoreColorGrid
 #include "CoreColorGrid_Utils.h"
-#include "Status.h"
 #include "Color.h"
 #include "Coord.h"
 #include "Player.h"
@@ -100,7 +99,7 @@ public:
     //Player
     Player* getWinnerPlayer() const;
     Player& getPlayer(int index) const;
-    Player& getCurrentPlayer();
+    Player& getCurrentPlayer() const;
 
     int getPlayersCount() const;
     int getHumanPlayersCount() const;

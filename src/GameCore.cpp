@@ -124,7 +124,7 @@ Player* GameCore::getWinnerPlayer() const
     return m_pWinnerPlayer;
 }
 
-Player& GameCore::getCurrentPlayer()
+Player& GameCore::getCurrentPlayer() const
 {
     return *m_players[m_currentPlayerIndex];
 }
