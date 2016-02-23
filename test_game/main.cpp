@@ -108,6 +108,7 @@ int main()
 // Helper Functions //
 void printBoard(const GameCore &core)
 {
+    //COWTODO: The color logic isn't accurate yet.
     auto &board = core.getBoard();
     for(auto &line : board)
     {
