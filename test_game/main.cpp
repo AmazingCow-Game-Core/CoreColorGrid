@@ -41,8 +41,11 @@
 //std
 #include <iostream>
 #include <iterator>
+#include <sstream>
 //CoreColorGrid
 #include "../include/CoreColorGrid.h"
+//Termcolor
+#include "termcolor.h"
 
 //Usings
 USING_NS_CORECOLORGRID;
@@ -64,19 +67,17 @@ int main()
     options.boardHeight = 7;
     options.colorsCount = 7;
     //Players
-    options.playersCount      = 1;
-    options.humanPlayersCount = 1;
+    options.playersCount      = 2;
+    options.humanPlayersCount = 2;
     options.startPlayerIndex  = 0;
     //AI.
     options.aiStrength = 5;
     //Other.
     options.maxMoves = GameCore::kUnlimitedMoves;
-    options.seed     = GameCore::kRandomSeed;
-
+    options.seed     = 2;//GameCore::kRandomSeed;
 
     //Create the Game Core.
     GameCore core(options);
-
 
     //Game Loop.
     while(1)
@@ -111,7 +112,23 @@ void printBoard(const GameCore &core)
     for(auto &line : board)
     {
         for(auto &color : line)
-            cout << color.getColorIndex();
+        {
+            int fgr = (color.getOwnerIndex() == Color::kInvalidOwner)
+                       ? termcolor::GREY + color.getColorIndex() + 1
+                       : termcolor::GREY;
+
+            int bgr = (color.getOwnerIndex() == Color::kInvalidOwner)
+                       ? termcolor::ON_GREY
+                       : termcolor::ON_GREY + color.getColorIndex();
+
+            auto options = termcolor::options(fgr, bgr);
+
+
+            stringstream ss;
+            ss << color.getColorIndex();
+
+            cout << options(ss.str());
+        }
         cout << endl;
     }
 }
