@@ -44,56 +44,55 @@
 //CoreColorGrid
 #include "../include/CoreColorGrid.h"
 
+//Usings
 USING_NS_CORECOLORGRID;
 using namespace std;
 
+
+// Helper Functions //
+void printBoard(const GameCore &core);
+void printCoreInfo(const GameCore &core);
+
+
+// Implementation //
 int main()
 {
+    //Create the GameCore Options.
     GameCore::Options options;
-
     //Board
     options.boardWidth  = 7;
     options.boardHeight = 7;
     options.colorsCount = 7;
-
-    //Players.
-    options.player1 = GameCore::Options::PlayerType::Human;
-    options.player2 = GameCore::Options::PlayerType::None;
-    options.player3 = GameCore::Options::PlayerType::None;
-    options.player4 = GameCore::Options::PlayerType::None;
-
-    options.startPlayerIndex = 0;
-
+    //Players
+    options.playersCount      = 1;
+    options.humanPlayersCount = 1;
+    options.startPlayerIndex  = 0;
     //AI.
     options.aiStrength = 5;
-
     //Other.
     options.maxMoves = GameCore::kUnlimitedMoves;
-    options.seed     = 3;//GameCore::kRandomSeed;
+    options.seed     = GameCore::kRandomSeed;
 
+
+    //Create the Game Core.
     GameCore core(options);
 
+
+    //Game Loop.
     while(1)
     {
-        cout << core.ascii() << endl;
-        auto &player = core.getCurrentPlayer();
-        // cout << player << endl;
-
-        int a;
-        if(!player.isAIPlayer())
-            cin >> a;
-        else
-            a = static_cast<AIPlayer &>(player).decideColor();
-
-        auto &c = player.getOwnedCoords();
-        auto ac = core.getAffectedCoords(c, a);
-
-        cout << "Affected coords for " << a << endl;
-        std::copy(ac.begin(),
-                  ac.end(),
-                  std::ostream_iterator<CoreCoord::Coord>(std::cout, ", "));
-        cout << endl;
-
-        core.changeColor(a);
+        printBoard(core);
+        printCoreInfo(core);
     }
+}
+
+
+// Helper Functions //
+void printBoard(const GameCore &core)
+{
+
+}
+void printCoreInfo(const GameCore &core)
+{
+
 }
