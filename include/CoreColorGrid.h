@@ -48,7 +48,6 @@
 
 #include "CoreColorGrid_Utils.h"
 #include "Color.h"
-#include "Status.h"
 #include "GameCore.h"
 #include "Player.h"
 #include "AIPlayer.h"
