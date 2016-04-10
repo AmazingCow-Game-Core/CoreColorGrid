@@ -1,3 +1,6 @@
 [submodule "lib/CoreCoord"]
 	path = lib/CoreCoord
 	url = https://www.github.com/amazingcow/CoreCoord
+[submodule "lib/CoreRandom"]
+	path = lib/CoreRandom
+	url = https://www.github.com/AmazingCow-Game-Core/CoreRandom.git
